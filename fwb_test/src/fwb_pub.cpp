@@ -14,6 +14,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "fwb_message_interfaces/msg/device.hpp"  // 引入 device.h 生成的消息类型
 
 constexpr const char* topic_name = "fwb_stats";
 
@@ -79,13 +80,20 @@ private:
         std::string topic = data_str.substr(topic_pos, topic_end_pos - topic_pos);
         std::string data = data_str.substr(data_pos, data_end_pos - data_pos);
         
-        // 创建消息并发布
-        auto msg = std::make_unique<std_msgs::msg::String>();
-        msg->data = std::move(data);              
+        // // 创建消息并发布
+        // auto msg = std::make_unique<std_msgs::msg::String>();
+        // msg->data = std::move(data);              
+        auto message = fwb_message_interfaces::msg::Device();
+        message.name = "ExampleDevice";
+        message.id = 123;
+        message.email = "abc.com";
+        message.age = 999;
         
-        RCLCPP_INFO(this->get_logger(), "-->Publishing to topic [%s], data: '%s'", topic.c_str(), msg->data.c_str());
+        RCLCPP_INFO(this->get_logger(), "-->Publishing to topic [%s]\n", topic.c_str());
         // 获取或创建相应的 publisher，并发布消息
-        get_pub(topic)->publish(std::move(msg));
+        auto pub_test = this->create_publisher<fwb_message_interfaces::msg::Device>(topic_name, 15);
+        pub_test->publish(message);
+        //get_pub(topic)->publish(message);
       } else {
         RCLCPP_ERROR(this->get_logger(), "Failed to parse topic from buffer: '%s'", data_str.c_str());
       }
