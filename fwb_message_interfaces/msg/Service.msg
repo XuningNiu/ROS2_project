@@ -1,0 +1,11 @@
+int32 id
+string name
+string email
+int32 age
+bool is_active
+bool newsletter
+bool notifications
+int32 service1
+int32 service2
+int32 service3
+int32 service4
