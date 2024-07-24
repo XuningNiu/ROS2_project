@@ -4,13 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <errno.h>
-#include <signal.h>
 
 int connect_ros(ros_client_t *client, const char *server_ip, int port) {
-
-    signal(SIGPIPE, SIG_IGN); 
-
     // 创建socket
     if ((client->sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("Socket creation error");
@@ -50,19 +45,8 @@ int send_ros(ros_client_t *client, const char *topic_name, const char *message) 
 
     //printf("send msg : ---> %s\n", buffer);
     // 发送数据到服务器
-    // if (send(client->sock, buffer, strlen(buffer), 0) < 0) {
-    //     perror("Send error");
-    //     free(buffer);
-    //     return -1;
-    // }
-
-
     if (send(client->sock, buffer, strlen(buffer), 0) < 0) {
-        if (errno == EPIPE) {
-            fprintf(stderr, "Send error: socket closed by peer\n");
-        } else {
-            perror("Send error");
-        }
+        perror("Send error");
         free(buffer);
         return -1;
     }

@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "age": 30,
+    "is_active": true,
+    "preferences": {
+      "newsletter": true,
+      "notifications": false
+    }
+}  

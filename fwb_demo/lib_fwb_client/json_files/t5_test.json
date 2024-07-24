@@ -1,0 +1,14 @@
+{
+  "student_id": 12345,
+  "name": "Alice Smith",
+  "grades": {
+    "math": 95,
+    "english": 88,
+    "science": 92
+  },
+  "attendance": {
+    "total_days": 180,
+    "present_days": 178,
+    "absent_days": 2
+  }
+}
